@@ -16,23 +16,22 @@ export class App {
 
   metodoPago = "";
 
-  textoBusqueda = signal<string>("");
 
   public hacerBusqueda(ingredienteBusqueda: string) {
     this.pizzasFiltradas = [];
-    this.textoBusqueda.set(ingredienteBusqueda);
 
-    for (let pizza of this.pizzas) {
-      for (let ingrediente of pizza.ingredientes) {
-        if (ingrediente.toLocaleLowerCase().includes(this.textoBusqueda().toLocaleLowerCase())) {
-          this.pizzasFiltradas.push(pizza);
-          break;
+    if (ingredienteBusqueda == "") {
+      this.pizzasFiltradas = this.pizzas
+    } else {
+      for (let pizza of this.pizzas) {
+        for (let ingrediente of pizza.ingredientes) {
+          if (ingrediente.toLocaleLowerCase().includes(ingredienteBusqueda.toLocaleLowerCase())) {
+            this.pizzasFiltradas.push(pizza);
+            break;
+          }
         }
       }
     }
-
-
-
   }
 
   pizzas = [
