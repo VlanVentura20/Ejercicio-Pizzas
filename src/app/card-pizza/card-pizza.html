@@ -1,0 +1,16 @@
+<div class="card h-100 shadow border border-2">
+    <div class="card-header bg-dark text-white text-center">
+        <h5 class="fw-bold">{{ pizza().nombre }}</h5>
+        <span class="badge bg-success fs-6">{{ pizza().precio }} €</span>
+    </div>
+    <img [src]="pizza().imagen" class="w-100">
+    <div class="card-body">
+        <h6 class="text-danger fw-bold">Ingredientes:</h6>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">{{ pizza().ingredientes }}</li>
+        </ul>
+    </div>
+    <div class="card-footer bg-light">
+        <a href="#pedido" class="btn btn-danger w-100">Pedir pizza</a>
+    </div>
+</div>
