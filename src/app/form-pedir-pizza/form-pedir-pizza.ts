@@ -1,4 +1,5 @@
 import { Component, input, signal } from '@angular/core';
+import { Pizza } from '../models/Pizza';
 
 @Component({
   imports: [],
@@ -17,11 +18,14 @@ export class FormPedirPizza {
     this.metodoPagoSeleccionado.set(mp)
   }
 
-}
+  pizzasSeleccionadas: string[] = [""];
 
-export interface Pizza {
-  nombre: string;
-  precio: number;
-  imagen: string;
-  ingredientes: string[];
+  anadirPizza() {
+    this.pizzasSeleccionadas.push("");
+  }
+
+  seleccionarPizza(event: Event, indice: number) {
+    this.pizzasSeleccionadas[indice] = (event.target as HTMLSelectElement).value;
+  }
+
 }

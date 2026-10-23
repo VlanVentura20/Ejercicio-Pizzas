@@ -1,4 +1,5 @@
 import { Component, input } from '@angular/core';
+import { Pizza } from '../models/Pizza';
 
 @Component({
   imports: [],
@@ -10,11 +11,4 @@ export class CardPizza {
 
 pizza = input.required<Pizza>();
 
-}
-
-export interface Pizza {
-  nombre: string;
-  precio: number;
-  imagen: string;
-  ingredientes: string[];
 }

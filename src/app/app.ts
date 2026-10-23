@@ -3,6 +3,7 @@ import { CardPizza } from './card-pizza/card-pizza';
 import { FormPedirPizza } from './form-pedir-pizza/form-pedir-pizza';
 import { Header } from './header/header';
 import { Footer } from './footer/footer';
+import { Pizza } from './models/Pizza';
 
 
 @Component({
@@ -87,11 +88,4 @@ export class App {
 
   pizzasFiltradas: Pizza[] = this.pizzas;
 
-}
-
-export interface Pizza {
-  nombre: string;
-  precio: number;
-  imagen: string;
-  ingredientes: string[];
 }
