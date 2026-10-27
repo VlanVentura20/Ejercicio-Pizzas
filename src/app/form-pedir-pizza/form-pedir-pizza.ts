@@ -1,6 +1,6 @@
 import { Component, input, signal } from '@angular/core';
 import { Pizza } from '../models/Pizza';
-import { FormControl, ReactiveFormsModule, FormGroup, FormArray } from '@angular/forms';
+import { FormControl, ReactiveFormsModule, FormGroup, FormArray, AbstractControl, ValidationErrors  } from '@angular/forms';
 
 
 @Component({
@@ -31,17 +31,8 @@ export class FormPedirPizza {
 
   pizzas = input.required<Pizza[]>();
 
-  metodoPagoSeleccionado = signal<string>("");
-
-  public seleccionarMetodoPago(mp: string) {
-    this.metodoPagoSeleccionado.set(mp)
-  }
-
-  pizzasSeleccionadas: string[] = [""];
 
   anadirPizza() {
-    this.pizzasSeleccionadas.push("");
-
     this.pedirPizza.controls.tipoPizza.push(new FormControl(''));
     this.pedirPizza.controls.cantidad.push(new FormControl(1));
   }

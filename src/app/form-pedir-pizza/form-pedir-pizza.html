@@ -2,7 +2,7 @@
 
   <div class="row mb-3">
 
-    @for (seleccion of pizzasSeleccionadas; track $index) {
+    @for (seleccion of pedirPizza.controls.tipoPizza.controls; track $index) {
 
     <div class="col-md-8 mb-3" formArrayName="tipoPizza">
       <label class="form-label fw-bold">
@@ -16,7 +16,7 @@
         </option>
 
         @for (pizza of pizzas(); track pizza.nombre) {
-        @if (!pizzasSeleccionadas.includes(pizza.nombre) || seleccion === pizza.nombre) {
+        @if (!pedirPizza.controls.tipoPizza.value.includes(pizza.nombre) || seleccion.value === pizza.nombre) {
         <option [value]="pizza.nombre">
           {{ pizza.nombre }}
         </option>
@@ -74,7 +74,7 @@
     </label>
 
     <div class="form-check">
-      <input (change)="seleccionarMetodoPago('bizum')" class="form-check-input" type="radio"
+      <input class="form-check-input" type="radio"
         formControlName="metodoDePago" id="bizum" value="bizum">
 
       <label class="form-check-label" for="bizum">
@@ -83,7 +83,7 @@
     </div>
 
     <div class="form-check">
-      <input (change)="seleccionarMetodoPago('tarjeta')" class="form-check-input" type="radio"
+      <input class="form-check-input" type="radio"
         formControlName="metodoDePago" id="tarjeta" value="tarjeta">
 
       <label class="form-check-label" for="tarjeta">
@@ -92,14 +92,14 @@
     </div>
   </div>
 
-  @if (metodoPagoSeleccionado() === 'bizum') {
+  @if (pedirPizza.controls.metodoDePago.value === 'bizum') {
   <label class="form-label">
     Introduce tu número de teléfono:
   </label>
 
   <input type="tel" class="form-control" formControlName="numeroTelefono" placeholder="Número de teléfono" required>
 
-  } @else if (metodoPagoSeleccionado() === 'tarjeta') {
+  } @else if (pedirPizza.controls.metodoDePago.value === 'tarjeta') {
 
   <label class="form-label">
     Número de tarjeta:
