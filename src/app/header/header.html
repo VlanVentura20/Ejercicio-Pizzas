@@ -20,12 +20,14 @@
           <a class="nav-link" href="#pedido">Realizar pedido</a>
         </li>
       </ul>
+      <form [formGroup]="busquedaForm" class="d-flex" (ngSubmit)="iniciarBusqueda()">
 
-      <form class="d-flex" (submit)="iniciarBusqueda(); $event.preventDefault()">
-        <input #busqueda (input)="ingredienteBusqueda = busqueda.value"
-          class="form-control me-2" type="search" placeholder="Search">
+        <input formControlName="busqueda" class="form-control me-2" type="search" placeholder="Search">
 
-        <button class="btn btn-outline-success" type="submit">Search</button>
+        <button class="btn btn-outline-success" type="submit">
+          Search
+        </button>
+
       </form>
     </div>
   </div>

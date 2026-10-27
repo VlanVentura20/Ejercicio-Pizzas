@@ -1,84 +1,129 @@
-<form>
+<form [formGroup]="pedirPizza">
+
   <div class="row mb-3">
+
     @for (seleccion of pizzasSeleccionadas; track $index) {
-    <div class="col-md-8 mb-3">
-      <label class="form-label fw-bold">Selecciona una pizza:</label>
 
-      <select class="form-select" (change)="seleccionarPizza($event, $index)" required>
+    <div class="col-md-8 mb-3" formArrayName="tipoPizza">
+      <label class="form-label fw-bold">
+        Selecciona una pizza:
+      </label>
 
-        <option value="" disabled [selected]="!seleccion">
+      <select class="form-select" [formControlName]="$index" required>
+
+        <option value="" disabled>
           Selecciona una pizza
         </option>
 
         @for (pizza of pizzas(); track pizza.nombre) {
         @if (!pizzasSeleccionadas.includes(pizza.nombre) || seleccion === pizza.nombre) {
-        <option [value]="pizza.nombre" [selected]="seleccion === pizza.nombre">
+        <option [value]="pizza.nombre">
           {{ pizza.nombre }}
         </option>
         }
         }
+
       </select>
     </div>
+
+    @if (pedirPizza.controls.tipoPizza.at($index).value !== "") {
+    <div class="col-md-4" formArrayName="cantidad">
+      <label class="form-label fw-bold">
+        Cantidad:
+      </label>
+
+      <input type="number" class="form-control" [formControlName]="$index" min="1" required>
+    </div>
     }
+
+    }
+
     <div class="mt-2 mb-4">
-      @if (pizzasSeleccionadas[pizzasSeleccionadas.length - 1] !== "" && pizzasSeleccionadas.length < pizzas().length) {
-        <button type="button" class="btn btn-success mb-4 mt-2 col-md-3 " (click)="anadirPizza()">
+     @if (pedirPizza.controls.tipoPizza.at(pedirPizza.controls.tipoPizza.length - 1).value !== ""
+    && pedirPizza.controls.tipoPizza.length < pizzas().length) {
+        <button type="button" class="btn btn-success mb-4 mt-2 col-md-3" (click)="anadirPizza()">
         Añadir otra pizza
         </button>
         }
     </div>
-    <div class="col-md-4">
-      <label for="cantidad" class="form-label fw-bold">Cantidad:</label>
-      <input type="number" class="form-control" id="cantidad" name="cantidad" min="1" value="1" required>
-    </div>
+
   </div>
 
   <div class="mb-3">
-    <label for="hora" class="form-label fw-bold">Hora de entrega:</label>
+    <label for="hora" class="form-label fw-bold">
+      Hora de entrega:
+    </label>
+
     <div class="col-sm-3">
-      <input type="time" class="form-control" name="hora" id="hora" required>
+      <input type="time" class="form-control" id="hora" formControlName="horaEntrega" required>
     </div>
   </div>
 
   <div class="mb-3">
-    <label for="direccion" class="form-label fw-bold">Dirección de entrega:</label>
-    <input type="text" class="form-control" id="direccion" name="direccion" placeholder="Introduce tu dirección"
-      required>
+    <label for="direccion" class="form-label fw-bold">
+      Dirección de entrega:
+    </label>
+
+    <input type="text" class="form-control" id="direccion" formControlName="direccionEntrega"
+      placeholder="Introduce tu dirección" required>
   </div>
 
   <div class="mb-3">
-    <label class="form-label fw-bold">Método de pago:</label>
+    <label class="form-label fw-bold">
+      Método de pago:
+    </label>
 
     <div class="form-check">
-      <input (change)="seleccionarMetodoPago('bizum')" class="form-check-input" type="radio" name="pago" id="bizum"
-        value="bizum" required>
-      <label class="form-check-label" for="bizum">Bizum</label>
+      <input (change)="seleccionarMetodoPago('bizum')" class="form-check-input" type="radio"
+        formControlName="metodoDePago" id="bizum" value="bizum">
+
+      <label class="form-check-label" for="bizum">
+        Bizum
+      </label>
     </div>
 
     <div class="form-check">
-      <input (change)="seleccionarMetodoPago('tarjeta')" class="form-check-input" type="radio" name="pago" id="tarjeta"
-        value="tarjeta">
-      <label class="form-check-label" for="tarjeta">Tarjeta</label>
+      <input (change)="seleccionarMetodoPago('tarjeta')" class="form-check-input" type="radio"
+        formControlName="metodoDePago" id="tarjeta" value="tarjeta">
+
+      <label class="form-check-label" for="tarjeta">
+        Tarjeta
+      </label>
     </div>
   </div>
 
   @if (metodoPagoSeleccionado() === 'bizum') {
-  <label class="form-label">Introduce tu número de teléfono:</label>
-  <input type="tel" class="form-control" placeholder="Número de teléfono" required>
+  <label class="form-label">
+    Introduce tu número de teléfono:
+  </label>
+
+  <input type="tel" class="form-control" formControlName="numeroTelefono" placeholder="Número de teléfono" required>
+
   } @else if (metodoPagoSeleccionado() === 'tarjeta') {
-  <label class="form-label">Número de tarjeta:</label>
-  <input type="text" class="form-control" placeholder="Número de tarjeta" required>
+
+  <label class="form-label">
+    Número de tarjeta:
+  </label>
+
+  <input type="text" class="form-control" formControlName="numeroTarjeta" placeholder="Número de tarjeta" required>
 
   <div class="col-sm-3">
-    <label class="form-label mt-3">Fecha de caducidad:</label>
-    <input type="month" class="form-control" required>
+    <label class="form-label mt-3">
+      Fecha de caducidad:
+    </label>
+
+    <input type="month" class="form-control" formControlName="caducidadTarjeta" required>
   </div>
 
-  <label class="form-label mt-3">CVV:</label>
-  <input type="text" class="form-control" placeholder="CVV" maxlength="4" required>
+  <label class="form-label mt-3">
+    CVV:
+  </label>
+
+  <input type="text" class="form-control" formControlName="cvvTarjeta" placeholder="CVV" maxlength="4" required>
   }
 
   <button type="submit" class="btn btn-danger w-100 mt-4">
     Confirmar pedido
   </button>
+
 </form>
