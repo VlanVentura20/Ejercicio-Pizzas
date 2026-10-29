@@ -1,37 +1,7 @@
 <div class="container mt-4">
-
   <app-header (textoBusqueda)="hacerBusqueda($event)"></app-header>
 
-  <div class="bg-danger text-white text-center p-4 mb-4 rounded shadow">
-    <h1 class="fw-bold">4V Pizza</h1>
-    <p class="mb-0">Las mejores pizzas de la ciudad</p>
-  </div>
-
-  <div class="alert alert-warning text-center">
-    ¡Disfruta de nuestras pizzas recién hechas!
-  </div>
-
-  <h2 class="text-center text-danger mb-4">Nuestro menú</h2>
-
-  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
-    @for (pizza of pizzasFiltradas; track $index){
-    <app-card-pizza [pizza]="pizza"></app-card-pizza>
-    }
-
-  </div>
-
-  <h2 id="pedido" class="text-center text-danger mt-5 mb-4">Realizar pedido</h2>
-
-  <div class="card shadow border border-2">
-    <div class="card-header bg-dark text-white text-center">
-      <h5 class="fw-bold mb-0">Datos del pedido</h5>
-    </div>
-
-    <div class="card-body">
-      <app-form-pedir-pizza [pizzas]="pizzas"></app-form-pedir-pizza>
-    </div>
-  </div>
-
-<app-footer></app-footer>
-
+  <router-outlet></router-outlet>
+  
+  <app-footer></app-footer>
 </div>

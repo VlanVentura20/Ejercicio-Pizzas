@@ -1,0 +1,19 @@
+
+  <div class="bg-danger text-white text-center p-4 mb-4 rounded shadow">
+    <h1 class="fw-bold">4V Pizza</h1>
+    <p class="mb-0">Las mejores pizzas de la ciudad</p>
+  </div>
+
+  <div class="alert alert-warning text-center">
+    ¡Disfruta de nuestras pizzas recién hechas!
+  </div>
+
+  <h2 class="text-center text-danger mb-4">Nuestro menú</h2>
+
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+    @for (pizza of pizzasFiltradas(); track $index){
+    <app-card-pizza [pizza]="pizza"></app-card-pizza>
+    }
+
+  </div>
+

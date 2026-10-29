@@ -4,7 +4,7 @@
       src="https://png.pngtree.com/png-vector/20250701/ourmid/pngtree-pizza-logo-transparent-image-free-for-online-download-png-image_16593606.webp"
       width="50" class="me-3">
 
-    <a class="navbar-brand" href="#">4V Pizza</a>
+    <a class="navbar-brand" routerLink="/">4V Pizza</a>
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarBasic"
       aria-controls="navbarBasic" aria-expanded="false" aria-label="Toggle navigation">
@@ -14,20 +14,26 @@
     <div class="collapse navbar-collapse show" id="navbarBasic">
       <ul class="navbar-nav me-auto mb-2 mb-xl-0">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
+          <a class="nav-link" routerLink="/informacion-pizzas"
+             routerLinkActive="active">
+            Home
+          </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#pedido">Realizar pedido</a>
+          <a class="nav-link" routerLink="/formulario-pedir-pizzas"
+             routerLinkActive="active">
+            Realizar pedido
+          </a>
         </li>
       </ul>
-      <form [formGroup]="busquedaForm" class="d-flex" (ngSubmit)="iniciarBusqueda()">
 
-        <input formControlName="busqueda" class="form-control me-2" type="search" placeholder="Search">
+      <form [formGroup]="busquedaForm" class="d-flex" (ngSubmit)="iniciarBusqueda()">
+        <input formControlName="busqueda" class="form-control me-2"
+               type="search" placeholder="Search">
 
         <button class="btn btn-outline-success" type="submit">
           Search
         </button>
-
       </form>
     </div>
   </div>
