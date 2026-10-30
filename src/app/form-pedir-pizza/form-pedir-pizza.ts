@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Pizza } from '../../models/Pizza';
 import { pizzas } from '../../models/pizzas';
-import { FormControl, ReactiveFormsModule, FormGroup, FormArray, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
+import { FormControl, ReactiveFormsModule, FormGroup, FormArray, Validators} from '@angular/forms';
 import { Router } from '@angular/router';
 
 @Component({
@@ -49,14 +49,8 @@ export class FormPedirPizza implements OnInit {
   ngOnInit() {
     let pizzasCarrito: Pizza[] = [];
 
-    let navegacion = this.router.currentNavigation();
-
-    if (navegacion != null) {
-      let estado = navegacion.extras.state;
-
-      if (estado != null) {
-        pizzasCarrito = estado['pizzas'] as Pizza[];
-      }
+    if (history.state.pizzas != null) {
+      pizzasCarrito = history.state.pizzas as Pizza[];
     }
 
     if (pizzasCarrito) {
