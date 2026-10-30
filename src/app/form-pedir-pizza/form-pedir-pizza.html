@@ -7,9 +7,9 @@
 </div>
 
 @if (pedidoConfirmado) {
-  <div class="alert alert-success text-center mt-3">
-    ¡Gracias por tu pedido! Tu pedido se ha realizado correctamente.
-  </div>
+<div class="alert alert-success text-center mt-3">
+  ¡Gracias por tu pedido! Tu pedido se ha realizado correctamente.
+</div>
 }
 
 <form [formGroup]="pedirPizza" (ngSubmit)="confirmarPedido()">
@@ -23,7 +23,8 @@
         Selecciona una pizza:
       </label>
 
-      <select class="form-select" [formControlName]="$index" required>
+      <select [id]="'selectorPizza' + $index" class="form-select" [formControlName]="$index" required>
+
         <option value="" disabled>Selecciona una pizza</option>
 
         @for (pizza of pizzas; track pizza.nombre) {
@@ -34,6 +35,7 @@
         </option>
         }
         }
+
       </select>
     </div>
 

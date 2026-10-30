@@ -159,6 +159,10 @@ export class FormPedirPizza implements OnInit {
     this.anadirPizza();
 
     this.mostrarErrores = false;
+
+    setTimeout(() => {
+      document.getElementById('selectorPizza0')?.focus();
+    });
   }
 
   pedidoConfirmado = false;
