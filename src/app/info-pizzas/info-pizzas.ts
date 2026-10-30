@@ -1,7 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { CardPizza } from '../card-pizza/card-pizza';
 import { Pizza } from '../models/Pizza';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 
 @Component({
@@ -12,9 +12,24 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class InfoPizzas {
 
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute
+  ) { }
+
+  irAlCarrito() {
+    this.router.navigate(['/formulario-pedir-pizzas'], {
+      state: { pizzas: this.carrito() }
+    });
+  }
+
   metodoPago = "";
 
-  constructor(private route: ActivatedRoute) { }
+  carrito = signal<Pizza[]>([]);
+
+  anadirAlCarrito(pizza: Pizza) {
+    this.carrito.update(pizzas => [...pizzas, pizza]);
+  }
 
   ngOnInit() {
     this.route.queryParamMap.subscribe(params => {

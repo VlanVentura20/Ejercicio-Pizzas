@@ -1,11 +1,11 @@
+
 <h2 id="pedido" class="text-center text-danger mt-5 mb-4">Realizar pedido</h2>
 
 <div class="card shadow border border-2 mb-4">
-    <div class="card-header bg-dark text-white text-center">
-      <h5 class="fw-bold mb-0">Datos del pedido</h5>
-    </div>
-
+  <div class="card-header bg-dark text-white text-center">
+    <h5 class="fw-bold mb-0">Datos del pedido</h5>
   </div>
+</div>
 
 <form [formGroup]="pedirPizza">
 
@@ -13,47 +13,67 @@
 
     @for (seleccion of pedirPizza.controls.tipoPizza.controls; track $index) {
 
-    <div class="col-md-8 mb-3" formArrayName="tipoPizza">
-      <label class="form-label fw-bold">
-        Selecciona una pizza:
-      </label>
+      <div class="col-md-6 mb-3" formArrayName="tipoPizza">
+        <label class="form-label fw-bold">
+          Selecciona una pizza:
+        </label>
 
-      <select class="form-select" [formControlName]="$index" required>
+        <select class="form-select" [formControlName]="$index" required>
+          <option value="" disabled>Selecciona una pizza</option>
 
-        <option value="" disabled>
-          Selecciona una pizza
-        </option>
+          @for (pizza of pizzas; track pizza.nombre) {
+            @if (!pedirPizza.controls.tipoPizza.value.includes(pizza.nombre)
+                 || seleccion.value === pizza.nombre) {
+              <option [value]="pizza.nombre">
+                {{ pizza.nombre }} - {{ pizza.precio.toFixed(2) }} €
+              </option>
+            }
+          }
+        </select>
+      </div>
 
-        @for (pizza of pizzas(); track pizza.nombre) {
-        @if (!pedirPizza.controls.tipoPizza.value.includes(pizza.nombre) || seleccion.value === pizza.nombre) {
-        <option [value]="pizza.nombre">
-          {{ pizza.nombre }}
-        </option>
-        }
-        }
+      <div class="col-md-3 mb-3" formArrayName="cantidad">
+        <label class="form-label fw-bold">
+          Cantidad:
+        </label>
 
-      </select>
-    </div>
+        <input type="number"
+               class="form-control"
+               [formControlName]="$index"
+               min="1"
+               required>
+      </div>
 
-    @if (pedirPizza.controls.tipoPizza.at($index).value !== "") {
-    <div class="col-md-4" formArrayName="cantidad">
-      <label class="form-label fw-bold">
-        Cantidad:
-      </label>
+      <div class="col-md-3 mb-3">
+        <label class="form-label fw-bold">
+          Subtotal:
+        </label>
 
-      <input type="number" class="form-control" [formControlName]="$index" min="1" required>
-    </div>
-    }
+        <input type="text"
+               class="form-control"
+               [value]="(obtenerPrecio(seleccion.value) * (pedirPizza.controls.cantidad.at($index).value || 0)).toFixed(2) + ' €'"
+               readonly>
+      </div>
 
     }
 
     <div class="mt-2 mb-4">
-     @if (pedirPizza.controls.tipoPizza.at(pedirPizza.controls.tipoPizza.length - 1).value !== ""
-    && pedirPizza.controls.tipoPizza.length < pizzas().length) {
-        <button type="button" class="btn btn-success mb-4 mt-2 col-md-3" (click)="anadirPizza()">
-        Añadir otra pizza
+      @if (pedirPizza.controls.tipoPizza.length < pizzas.length
+           && pedirPizza.controls.tipoPizza.at(pedirPizza.controls.tipoPizza.length - 1).value !== '') {
+
+        <button type="button"
+                class="btn btn-success mt-2"
+                (click)="anadirPizza()">
+          Añadir otra pizza
         </button>
-        }
+      }
+    </div>
+
+    <div class="text-end mb-4">
+      <h4 class="fw-bold">
+        Precio total:
+        <span class="text-danger">{{ obtenerTotal().toFixed(2) }} €</span>
+      </h4>
     </div>
 
   </div>
@@ -64,7 +84,11 @@
     </label>
 
     <div class="col-sm-3">
-      <input type="time" class="form-control" id="hora" formControlName="horaEntrega" required>
+      <input type="time"
+             class="form-control"
+             id="hora"
+             formControlName="horaEntrega"
+             required>
     </div>
   </div>
 
@@ -73,8 +97,12 @@
       Dirección de entrega:
     </label>
 
-    <input type="text" class="form-control" id="direccion" formControlName="direccionEntrega"
-      placeholder="Introduce tu dirección" required>
+    <input type="text"
+           class="form-control"
+           id="direccion"
+           formControlName="direccionEntrega"
+           placeholder="Introduce tu dirección"
+           required>
   </div>
 
   <div class="mb-3">
@@ -83,8 +111,11 @@
     </label>
 
     <div class="form-check">
-      <input class="form-check-input" type="radio"
-        formControlName="metodoDePago" id="bizum" value="bizum">
+      <input class="form-check-input"
+             type="radio"
+             formControlName="metodoDePago"
+             id="bizum"
+             value="bizum">
 
       <label class="form-check-label" for="bizum">
         Bizum
@@ -92,8 +123,11 @@
     </div>
 
     <div class="form-check">
-      <input class="form-check-input" type="radio"
-        formControlName="metodoDePago" id="tarjeta" value="tarjeta">
+      <input class="form-check-input"
+             type="radio"
+             formControlName="metodoDePago"
+             id="tarjeta"
+             value="tarjeta">
 
       <label class="form-check-label" for="tarjeta">
         Tarjeta
@@ -102,33 +136,50 @@
   </div>
 
   @if (pedirPizza.controls.metodoDePago.value === 'bizum') {
-  <label class="form-label">
-    Introduce tu número de teléfono:
-  </label>
 
-  <input type="tel" class="form-control" formControlName="numeroTelefono" placeholder="Número de teléfono" required>
+    <label class="form-label">
+      Introduce tu número de teléfono:
+    </label>
+
+    <input type="tel"
+           class="form-control"
+           formControlName="numeroTelefono"
+           placeholder="Número de teléfono"
+           required>
 
   } @else if (pedirPizza.controls.metodoDePago.value === 'tarjeta') {
 
-  <label class="form-label">
-    Número de tarjeta:
-  </label>
-
-  <input type="text" class="form-control" formControlName="numeroTarjeta" placeholder="Número de tarjeta" required>
-
-  <div class="col-sm-3">
-    <label class="form-label mt-3">
-      Fecha de caducidad:
+    <label class="form-label">
+      Número de tarjeta:
     </label>
 
-    <input type="month" class="form-control" formControlName="caducidadTarjeta" required>
-  </div>
+    <input type="text"
+           class="form-control"
+           formControlName="numeroTarjeta"
+           placeholder="Número de tarjeta"
+           required>
 
-  <label class="form-label mt-3">
-    CVV:
-  </label>
+    <div class="col-sm-3">
+      <label class="form-label mt-3">
+        Fecha de caducidad:
+      </label>
 
-  <input type="text" class="form-control" formControlName="cvvTarjeta" placeholder="CVV" maxlength="4" required>
+      <input type="month"
+             class="form-control"
+             formControlName="caducidadTarjeta"
+             required>
+    </div>
+
+    <label class="form-label mt-3">
+      CVV:
+    </label>
+
+    <input type="text"
+           class="form-control"
+           formControlName="cvvTarjeta"
+           placeholder="CVV"
+           maxlength="4"
+           required>
   }
 
   <button type="submit" class="btn btn-danger w-100 mt-4">

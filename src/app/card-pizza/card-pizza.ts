@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { Pizza } from '../models/Pizza';
 
 @Component({
@@ -9,6 +9,12 @@ import { Pizza } from '../models/Pizza';
 })
 export class CardPizza {
 
-pizza = input.required<Pizza>();
+  pizza = input.required<Pizza>();
+
+  pizzaAnadida = output<Pizza>();
+
+  anadirAlCarrito() {
+    this.pizzaAnadida.emit(this.pizza());
+  }
 
 }
