@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Pizza } from '../../models/Pizza';
 import { pizzas } from '../../models/pizzas';
 import { FormControl, ReactiveFormsModule, FormGroup, FormArray } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   imports: [ReactiveFormsModule],
@@ -23,8 +24,20 @@ export class FormPedirPizza implements OnInit {
     cvvTarjeta: new FormControl('')
   });
 
+  constructor(private router: Router) { }
+
   ngOnInit() {
-    let pizzasCarrito = history.state.pizzas as Pizza[] | undefined;
+    let pizzasCarrito: Pizza[] = [];
+
+    let navegacion = this.router.currentNavigation();
+
+    if (navegacion != null) {
+      let estado = navegacion.extras.state;
+
+      if (estado != null) {
+        pizzasCarrito = estado['pizzas'] as Pizza[];
+      }
+    }
 
     if (pizzasCarrito) {
       for (let pizza of pizzasCarrito) {
