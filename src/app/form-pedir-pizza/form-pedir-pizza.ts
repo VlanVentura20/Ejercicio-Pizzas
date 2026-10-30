@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Pizza } from '../../models/Pizza';
 import { pizzas } from '../../models/pizzas';
-import { FormControl, ReactiveFormsModule, FormGroup, FormArray } from '@angular/forms';
+import { FormControl, ReactiveFormsModule, FormGroup, FormArray, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { Router } from '@angular/router';
 
 @Component({
@@ -15,13 +15,33 @@ export class FormPedirPizza implements OnInit {
   pedirPizza = new FormGroup({
     tipoPizza: new FormArray<FormControl<string | null>>([]),
     cantidad: new FormArray<FormControl<number | null>>([]),
-    horaEntrega: new FormControl(''),
-    direccionEntrega: new FormControl(''),
-    metodoDePago: new FormControl(''),
-    numeroTelefono: new FormControl(''),
-    numeroTarjeta: new FormControl(''),
+
+    horaEntrega: new FormControl('', [
+      Validators.required
+    ]),
+
+    direccionEntrega: new FormControl('', [
+      Validators.required,
+      Validators.minLength(5)
+    ]),
+
+    metodoDePago: new FormControl('', [
+      Validators.required
+    ]),
+
+    numeroTelefono: new FormControl('', [
+      Validators.pattern('^[0-9]{9}$')
+    ]),
+
+    numeroTarjeta: new FormControl('', [
+      Validators.pattern('^[0-9]{16}$')
+    ]),
+
     caducidadTarjeta: new FormControl(''),
-    cvvTarjeta: new FormControl('')
+
+    cvvTarjeta: new FormControl('', [
+      Validators.pattern('^[0-9]{3,4}$')
+    ])
   });
 
   constructor(private router: Router) { }
@@ -45,8 +65,17 @@ export class FormPedirPizza implements OnInit {
         let indice = this.pedirPizza.controls.tipoPizza.value.indexOf(pizza.nombre);
 
         if (indice === -1) {
-          this.pedirPizza.controls.tipoPizza.push(new FormControl(pizza.nombre));
-          this.pedirPizza.controls.cantidad.push(new FormControl(1));
+          this.pedirPizza.controls.tipoPizza.push(
+            new FormControl(pizza.nombre, Validators.required)
+          );
+
+          this.pedirPizza.controls.cantidad.push(
+            new FormControl(1, [
+              Validators.required,
+              Validators.min(1),
+              Validators.pattern('^[0-9]+$')
+            ])
+          );
         } else {
           let control = this.pedirPizza.controls.cantidad.at(indice);
 
@@ -65,8 +94,17 @@ export class FormPedirPizza implements OnInit {
   }
 
   anadirPizza() {
-    this.pedirPizza.controls.tipoPizza.push(new FormControl(''));
-    this.pedirPizza.controls.cantidad.push(new FormControl(1));
+    this.pedirPizza.controls.tipoPizza.push(
+      new FormControl('', Validators.required)
+    );
+
+    this.pedirPizza.controls.cantidad.push(
+      new FormControl(1, [
+        Validators.required,
+        Validators.min(1),
+        Validators.pattern('^[0-9]+$')
+      ])
+    );
   }
 
   obtenerPrecio(nombre: string | null): number {
@@ -93,6 +131,19 @@ export class FormPedirPizza implements OnInit {
 
     return total;
   }
+
+  mostrarErrores = false;
+
+  confirmarPedido() {
+  this.mostrarErrores = true;
+
+  if (this.pedirPizza.invalid) {
+    this.pedirPizza.markAllAsTouched();
+    return;
+  }
+
+  console.log("Pedido confirmado:", this.pedirPizza.value);
+}
 
   pizzas = pizzas;
 
