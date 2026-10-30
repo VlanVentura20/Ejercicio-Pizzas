@@ -1,5 +1,5 @@
 import { Component, input, output } from '@angular/core';
-import { Pizza } from '../models/Pizza';
+import { Pizza } from '../../models/Pizza';
 
 @Component({
   imports: [],
