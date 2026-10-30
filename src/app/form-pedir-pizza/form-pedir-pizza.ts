@@ -135,15 +135,26 @@ export class FormPedirPizza implements OnInit {
   mostrarErrores = false;
 
   confirmarPedido() {
-  this.mostrarErrores = true;
+    this.mostrarErrores = true;
 
-  if (this.pedirPizza.invalid) {
-    this.pedirPizza.markAllAsTouched();
-    return;
+    if (this.pedirPizza.invalid) {
+      this.pedirPizza.markAllAsTouched();
+      return;
+    }
+
+    console.log("Pedido confirmado:", this.pedirPizza.value);
   }
 
-  console.log("Pedido confirmado:", this.pedirPizza.value);
-}
+  limpiarFormulario() {
+    this.pedirPizza.reset();
+
+    this.pedirPizza.controls.tipoPizza.clear();
+    this.pedirPizza.controls.cantidad.clear();
+
+    this.anadirPizza();
+
+    this.mostrarErrores = false;
+  }
 
   pizzas = pizzas;
 
