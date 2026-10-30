@@ -6,6 +6,12 @@
   </div>
 </div>
 
+@if (pedidoConfirmado) {
+  <div class="alert alert-success text-center mt-3">
+    ¡Gracias por tu pedido! Tu pedido se ha realizado correctamente.
+  </div>
+}
+
 <form [formGroup]="pedirPizza" (ngSubmit)="confirmarPedido()">
 
   <div class="row mb-3">

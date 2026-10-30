@@ -142,7 +142,12 @@ export class FormPedirPizza implements OnInit {
       return;
     }
 
-    console.log("Pedido confirmado:", this.pedirPizza.value);
+    this.limpiarFormulario();
+    this.pedidoConfirmado = true;
+
+    setTimeout(() => {
+      this.pedidoConfirmado = false;
+    }, 3000);
   }
 
   limpiarFormulario() {
@@ -155,6 +160,10 @@ export class FormPedirPizza implements OnInit {
 
     this.mostrarErrores = false;
   }
+
+  pedidoConfirmado = false;
+
+
 
   pizzas = pizzas;
 
