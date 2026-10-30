@@ -1,4 +1,4 @@
-import { Component, output, signal } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { CardPizza } from '../card-pizza/card-pizza';
 import { Pizza } from '../models/Pizza';
 import { ActivatedRoute } from '@angular/router';

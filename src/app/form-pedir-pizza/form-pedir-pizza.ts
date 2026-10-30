@@ -1,6 +1,6 @@
 import { Component, input, signal } from '@angular/core';
 import { Pizza } from '../models/Pizza';
-import { FormControl, ReactiveFormsModule, FormGroup, FormArray, AbstractControl, ValidationErrors  } from '@angular/forms';
+import { FormControl, ReactiveFormsModule, FormGroup, FormArray} from '@angular/forms';
 
 
 @Component({
