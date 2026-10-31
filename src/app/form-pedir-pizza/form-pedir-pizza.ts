@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Pizza } from '../../models/Pizza';
 import { pizzas } from '../../models/pizzas';
-import { FormControl, ReactiveFormsModule, FormGroup, FormArray, Validators} from '@angular/forms';
+import { FormControl, ReactiveFormsModule, FormGroup, FormArray, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 @Component({
@@ -161,7 +161,12 @@ export class FormPedirPizza implements OnInit {
 
   pedidoConfirmado = false;
 
-
+  quitarPizza(indice: number) {
+    if (this.pedirPizza.controls.tipoPizza.length > 1) {
+      this.pedirPizza.controls.tipoPizza.removeAt(indice);
+      this.pedirPizza.controls.cantidad.removeAt(indice);
+    }
+  }
 
   pizzas = pizzas;
 

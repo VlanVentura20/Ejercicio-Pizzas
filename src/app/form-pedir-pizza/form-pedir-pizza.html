@@ -55,6 +55,12 @@
       <input type="text" class="form-control"
         [value]="(obtenerPrecio(seleccion.value) * (pedirPizza.controls.cantidad.at($index).value || 0)).toFixed(2) + ' €'"
         readonly>
+
+      @if (pedirPizza.controls.tipoPizza.length > 1) {
+      <button type="button" class="btn btn-danger mt-2 w-100" (click)="quitarPizza($index)">
+        Quitar pizza
+      </button>
+      }
     </div>
 
     }
